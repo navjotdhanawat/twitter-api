@@ -19,7 +19,10 @@ export class TwitterComponent implements OnInit {
   player: YT.Player;
   private id: string = 'https://t.co/1Fm71wYuLU';
 
-  lastId:any = null;
+  lastId: any = null;
+
+  lat: any = null;
+  lng: any = null;
 
   tweets: any = [];
   constructor(private twitterService: TwitterService, public sanitizer: DomSanitizer) {
@@ -27,44 +30,46 @@ export class TwitterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.twitterService.getTweets(this.lastId).subscribe(
-      (data: any) => {
-        console.log("PUT Request is successful ", data);
-        this.tweets = data.tweets.statuses;
-        this.lastId = this.tweets[this.tweets.length-1] ? this.tweets[this.tweets.length-1].id : null;
-        this.alert = this.tweets[this.tweets.length-1] ? "": "No Tweets for given #tag"
-        console.log(this.tweets)
-      },
-      error => {
-        console.log("Rrror", error);
-      })
+    this.getLocation();
   }
 
   tweet() {
-    
     var status = this.comment + " #nowplaying " + this.videoUrl;
     debugger
-    this.twitterService.tweet({status}).subscribe(
+    this.twitterService.tweet({ status }).subscribe(
       (data: any) => {
         debugger
         console.log("PUT Request is successful ", data);
       },
       error => {
         debugger
-        console.log("Rrror", error);
+        console.log("Error", error);
       })
   }
 
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.onScroll()
+      });
+    } else {
+      this.alert = "Geolocation is not supported by this browser.";
+    }
+  }
+
   onScroll() {
-    this.twitterService.getTweets(this.lastId).subscribe(
+    var geocode = this.lat +","+this.lng
+    this.twitterService.getTweets(this.lastId, geocode).subscribe(
       (data: any) => {
         console.log("PUT Request is successful ", data);
-        
+
         this.tweets = [...this.tweets, ...data.tweets.statuses];
-        this.lastId = this.tweets[this.tweets.length-1].id;
+        this.lastId = this.tweets[this.tweets.length - 1] ? this.tweets[this.tweets.length - 1].id : null;
         console.log(this.tweets)
       },
-      error => { 
+      error => {
         console.log("Rrror", error);
       })
   }

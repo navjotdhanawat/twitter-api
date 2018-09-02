@@ -13,15 +13,17 @@ var T = new Twit({
     strictSSL: config.strictSSL
 });
 
+// to fetch tweets 
 function getFeeds(req, res) {
     var next = req.params.lastId;
-    console.log(next)
-    var params = { q: '#nowplaying ', maxResults: 5, next }
+    var geocode = req.params.geocode;
+    var params = { q: 'youtu.be #nowplaying ', count: 5 }
     T.get('search/tweets', params, function (err, tweets, response) {
         res.json({ status: true, tweets });
     })
 }
 
+// to post tweet
 function tweet(req, res) {
     var status = req.body.status;
     console.log(status)
