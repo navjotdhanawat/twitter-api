@@ -13,4 +13,8 @@ export class TwitterService {
   getTweets(id) {
     return this.httpClient.get("http://localhost:8080/twitter/search-tweets/"+ id)
   }
+
+  tweet(status) {
+    return this.httpClient.post("http://localhost:8080/twitter/tweet", status)
+  }
 }

@@ -1,17 +1,20 @@
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid tweet-section">
   <div class="container">
     <div class="input-group mb-3">
-      <input style="margin-right: 20px;" type="text" class="form-control" placeholder="Enter Video URL" aria-label="Enter Video URL"
-        aria-describedby="basic-addon2">
-      <input type="text" class="form-control" placeholder="Enter Comment" aria-label="Enter Comment" aria-describedby="basic-addon2">
+      <input [(ngModel)]="videoUrl" style="margin-right: 20px;" type="text" class="form-control" placeholder="Enter Video URL"
+        aria-label="Enter Video URL" aria-describedby="basic-addon2">
+      <input [(ngModel)]="comment" type="text" class="form-control" placeholder="Enter Comment" aria-label="Enter Comment" aria-describedby="basic-addon2">
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Tweet</button>
+        <button (click)="tweet()" class="btn btn-outline-secondary" type="button">Tweet #nowplaying</button>
       </div>
     </div>
   </div>
 </div>
 
 <div class="container">
+  <div *ngIf="alert" class="alert alert-info" style="text-align: center;">
+    <strong>Info!</strong> {{alert}}
+  </div>
   <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
     [scrollWindow]="false">
 

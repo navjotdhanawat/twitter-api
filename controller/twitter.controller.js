@@ -16,12 +16,22 @@ var T = new Twit({
 function getFeeds(req, res) {
     var next = req.params.lastId;
     console.log(next)
-    var params = { q: 'youtu.be #nowplaying', maxResults: 5, next }
+    var params = { q: '#nowplaying ', maxResults: 5, next }
     T.get('search/tweets', params, function (err, tweets, response) {
         res.json({ status: true, tweets });
     })
 }
 
+function tweet(req, res) {
+    var status = req.body.status;
+    console.log(status)
+
+    T.post('statuses/update', { status }, function(err, data, response) {
+        res.json({ status: true, data });
+    })
+}
+
 module.exports = {
-    getFeeds
+    getFeeds,
+    tweet
 }

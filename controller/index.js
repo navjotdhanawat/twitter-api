@@ -1,5 +1,1 @@
-var { getFeeds } = require('./twitter.controller')
-
-module.exports = {
-    getFeeds
-}
+module.exports = require('./twitter.controller')

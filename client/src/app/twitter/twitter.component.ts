@@ -8,10 +8,13 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./twitter.component.scss']
 })
 export class TwitterComponent implements OnInit {
+  videoUrl: string;
+  comment: string;
   name: string;
   video: any = { id: 'wzrnuUOoFNM' };
   baseUrl: string = 'https://www.youtube.com/embed/';
-  url: any = ''
+  url: any = '';
+  alert: any = '';
 
   player: YT.Player;
   private id: string = 'https://t.co/1Fm71wYuLU';
@@ -28,10 +31,26 @@ export class TwitterComponent implements OnInit {
       (data: any) => {
         console.log("PUT Request is successful ", data);
         this.tweets = data.tweets.statuses;
-        this.lastId = this.tweets[this.tweets.length-1].id;
+        this.lastId = this.tweets[this.tweets.length-1] ? this.tweets[this.tweets.length-1].id : null;
+        this.alert = this.tweets[this.tweets.length-1] ? "": "No Tweets for given #tag"
         console.log(this.tweets)
       },
       error => {
+        console.log("Rrror", error);
+      })
+  }
+
+  tweet() {
+    
+    var status = this.comment + " #nowplaying " + this.videoUrl;
+    debugger
+    this.twitterService.tweet({status}).subscribe(
+      (data: any) => {
+        debugger
+        console.log("PUT Request is successful ", data);
+      },
+      error => {
+        debugger
         console.log("Rrror", error);
       })
   }
