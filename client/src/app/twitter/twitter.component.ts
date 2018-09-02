@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class TwitterComponent implements OnInit {
   videoUrl: string;
   comment: string;
+  loader: boolean;
   name: string;
   video: any = { id: 'wzrnuUOoFNM' };
   baseUrl: string = 'https://www.youtube.com/embed/';
@@ -30,15 +31,23 @@ export class TwitterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getLocation();
+    this.onScroll();
+  }
+  
+  showAlert(message) {
+    this.alert = message;
+    setTimeout(() => {
+      this.alert = "";
+    }, 2000)
   }
 
   tweet() {
     var status = this.comment + " #nowplaying " + this.videoUrl;
-    debugger
+    this.loader = true;
     this.twitterService.tweet({ status }).subscribe(
       (data: any) => {
-        debugger
+        this.loader = false;
+        this.showAlert("Tweeted successfully!!!")
         console.log("PUT Request is successful ", data);
       },
       error => {
@@ -60,6 +69,7 @@ export class TwitterComponent implements OnInit {
   }
 
   onScroll() {
+    this.loader = true;
     var geocode = this.lat +","+this.lng
     this.twitterService.getTweets(this.lastId, geocode).subscribe(
       (data: any) => {
@@ -67,10 +77,12 @@ export class TwitterComponent implements OnInit {
 
         this.tweets = [...this.tweets, ...data.tweets.statuses];
         this.lastId = this.tweets[this.tweets.length - 1] ? this.tweets[this.tweets.length - 1].id : null;
+        this.loader = false;
         console.log(this.tweets)
       },
       error => {
-        console.log("Rrror", error);
+        this.loader = false;
+        console.log("Error", error);
       })
   }
 

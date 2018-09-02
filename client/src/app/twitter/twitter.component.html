@@ -10,6 +10,7 @@
     </div>
   </div>
 </div>
+<div *ngIf="loader" class="overlay"><div class="loader"></div></div>
 
 <div class="container">
   <div *ngIf="alert" class="alert alert-info" style="text-align: center;">
@@ -21,11 +22,12 @@
     <div class="tweet-card" *ngFor="let tweet of tweets">
       <div class="card">
         <div class="card-header">
-          {{tweet.user.description}} || {{tweet.id}}
+          {{tweet.user.description ? tweet.user.description : 'No Description'}}
         </div>
         <div class="row" style="padding: 15px;">
           <div class="col-md-4">
             <div class="card" style="width: 100%;">
+              {{tweet.entities.urls[0] && tweet.entities.urls[0].url}}
               <!-- <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY">
               </iframe> -->
             </div>

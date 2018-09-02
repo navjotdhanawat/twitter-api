@@ -15,9 +15,10 @@ var T = new Twit({
 
 // to fetch tweets 
 function getFeeds(req, res) {
-    var next = req.params.lastId;
+    var max_id = req.params.lastId;
     var geocode = req.params.geocode;
-    var params = { q: 'youtu.be #nowplaying ', count: 5 }
+    var params = { q: 'youtu.be #nowplaying', count: 5, max_id }
+    console.log(params)
     T.get('search/tweets', params, function (err, tweets, response) {
         res.json({ status: true, tweets });
     })
