@@ -1,0 +1,47 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <div class="input-group mb-3">
+      <input style="margin-right: 20px;" type="text" class="form-control" placeholder="Enter Video URL" aria-label="Enter Video URL"
+        aria-describedby="basic-addon2">
+      <input type="text" class="form-control" placeholder="Enter Comment" aria-label="Enter Comment" aria-describedby="basic-addon2">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">Tweet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+    [scrollWindow]="false">
+
+    <div class="tweet-card" *ngFor="let tweet of tweets">
+      <div class="card">
+        <div class="card-header">
+          {{tweet.user.description}} || {{tweet.id}}
+        </div>
+        <div class="row" style="padding: 15px;">
+          <div class="col-md-4">
+            <div class="card" style="width: 100%;">
+              <!-- <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY">
+              </iframe> -->
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{tweet.user.name}}</h5>
+                <p class="card-text">{{tweet.text}}</p>
+                <div>
+                  <h6>
+                    <span class="badge badge-secondary">{{tweet.created_at | date:'short'}}</span>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
