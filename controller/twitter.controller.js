@@ -14,8 +14,10 @@ var T = new Twit({
 });
 
 function getFeeds(req, res) {
-    T.get('search/tweets', { q: 'youtu.be #nowplaying', count: 500 }, function (err, data, response) {
-        res.json({ status: true, data });
+    var lastId = req.params.lastId;
+    var params = { q: 'youtu.be #nowplaying', count: 10 }
+    T.get('search/tweets', params, function (err, tweets, response) {
+        res.json({ status: true, tweets });
     })
 }
 
