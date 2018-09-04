@@ -16,9 +16,12 @@ var T = new Twit({
 // to fetch tweets 
 function getFeeds(req, res) {
     var max_id = req.params.lastId;
-    var geocode = req.params.geocode;
-    var params = { q: 'youtu.be #nowplaying', count: 5, max_id }
-    console.log(params)
+
+    var lat = 37.7749; // San fransisco location 
+    var long = 122.4194;
+    var geocode = lat+','+long+','+'1000mi';
+    var params = { q: 'youtu.be #nowplaying', count: 5, max_id, geocode }
+
     T.get('search/tweets', params, function (err, tweets, response) {
         res.json({ status: true, tweets });
     })
